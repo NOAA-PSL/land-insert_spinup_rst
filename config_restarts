@@ -1,0 +1,39 @@
+#-----------------------------------------------------------
+# Config file for restarts to extract.
+# Clara Draper, based on Jeff Whitaker's script.
+#-----------------------------------------------------------
+
+#  SET VARS BELOW
+
+date=2024111500
+arch_tag="v16.3"
+datep3=`incdate $date 3` # restarts at end of window
+RES_ENS=96
+RES_CTL=192
+
+RES_ENS_IN=384 # NOTE: these are hard-wired in chres nml.template files
+RES_CTL_IN=768
+
+UFS_UTILS=/scratch2/BMC/gsienkf/Clara.Draper/create_ens/UFS_UTILS/
+DIROUT=/scratch2/BMC/gsienkf/Clara.Draper/create_ens/change_res/
+WORKDIR=/scratch2/BMC/gsienkf/Clara.Draper/create_ens/workdir
+ 
+####################
+# shouldn't have to change anything below here.
+
+nanals=10 # CSD testing
+LEVS=127 
+LEVSP1=`expr $LEVS + 1`
+
+YYYY=`echo $date | cut -c1-4`
+YYYYMM=`echo $date | cut -c1-6`
+YYYYMMDD=`echo $date | cut -c1-8`
+HH=`echo $date | cut -c9-10`
+MM=`echo $date | cut -c5-6`
+DD=`echo $date | cut -c7-8`
+YYYYp3=`echo $datep3 | cut -c1-4`
+YYYYMMp3=`echo $datep3 | cut -c1-6`
+YYYYMMDDp3=`echo $datep3 | cut -c1-8`
+HHp3=`echo $datep3 | cut -c9-10`
+MMp3=`echo $datep3 | cut -c5-6`
+DDp3=`echo $datep3 | cut -c7-8`

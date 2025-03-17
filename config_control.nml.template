@@ -1,0 +1,26 @@
+
+&config
+ mosaic_file_target_grid="/scratch1/NCEPDEV/global/glopara/fix/orog/20231027/C<RES>/C<RES>_mosaic.nc"
+ mosaic_file_input_grid="/scratch1/NCEPDEV/global/glopara/fix/orog/20231027/C768/C768_mosaic.nc"
+ fix_dir_target_grid="/scratch1/NCEPDEV/global/glopara/fix/orog/20231027/C<RES>/sfc"
+ orog_dir_input_grid="/scratch1/NCEPDEV/global/glopara/fix/orog/20231027/C768"
+ orog_files_input_grid="C768.mx025_oro_data.tile1.nc","C768.mx025_oro_data.tile2.nc","C768.mx025_oro_data.tile3.nc","C768.mx025_oro_data.tile4.nc","C768.mx025_oro_data.tile5.nc","C768.mx025_oro_data.tile6.nc"
+ orog_dir_target_grid="/scratch1/NCEPDEV/global/glopara/fix/orog/20231027/C<RES>"
+ orog_files_target_grid="C<RES>.mx025_oro_data.tile1.nc","C<RES>.mx025_oro_data.tile2.nc","C<RES>.mx025_oro_data.tile3.nc","C<RES>.mx025_oro_data.tile4.nc","C<RES>.mx025_oro_data.tile5.nc","C<RES>.mx025_oro_data.tile6.nc"
+ data_dir_input_grid="/scratch2/BMC/gsienkf/Clara.Draper/ensICS/C768/<YYYYMMDD><HH>/<member>"
+ atm_core_files_input_grid="fv_core.res.tile1.nc","fv_core.res.tile2.nc","fv_core.res.tile3.nc","fv_core.res.tile4.nc","fv_core.res.tile5.nc","fv_core.res.tile6.nc","fv_core.res.nc"
+ atm_tracer_files_input_grid="fv_tracer.res.tile1.nc","fv_tracer.res.tile2.nc","fv_tracer.res.tile3.nc","fv_tracer.res.tile4.nc","fv_tracer.res.tile5.nc","fv_tracer.res.tile6.nc"
+ sfc_files_input_grid="sfc_data.tile1.nc","sfc_data.tile2.nc","sfc_data.tile3.nc","sfc_data.tile4.nc","sfc_data.tile5.nc","sfc_data.tile6.nc"
+ cycle_mon=<MM>
+ cycle_day=<DD>
+ cycle_hour=<HH>
+ convert_atm=.true.
+ convert_sfc=.true.
+ convert_nst=.true.
+ input_type="restart"
+ thomp_mp_climo_file="/scratch1/NCEPDEV/global/glopara/fix/am/20220805/Thompson_MP_MONTHLY_CLIMO.nc",
+ vcoord_file_target_grid="/scratch1/NCEPDEV/global/glopara/fix/am/20220805/global_hyblev.l<LEVSP1>.txt"
+ tracers="sphum","liq_wat","o3mr","ice_wat","rainwat","snowwat","graupel"
+ tracers_input="sphum","liq_wat","o3mr","ice_wat","rainwat","snowwat","graupel"
+ nsoill_out=4
+/
