@@ -1,22 +1,39 @@
 #-----------------------------------------------------------
-# Config file for restarts to extract.
-# Clara Draper, based on Jeff Whitaker's script.
+# Config file for inserting offline (vector) restarts into 
+# cold start ensembles created by change-res.
+# Clara Draper.
 #-----------------------------------------------------------
+
+HERE=$(pwd)
 
 #  SET VARS BELOW
 
-date=2024111500
-arch_tag="v16.3"
-datep3=`incdate $date 3` # restarts at end of window
+CYCL_DATE=2024111500 # date of cycle
+VALID_DATE=`incdate $CYCL_DATE 3` #  requested data of restarts (is this correct????)
+
 RES_ENS=96
 RES_CTL=192
 
+# static files used spinning up the offline (vector) restart.
+# Note this needs to match the land mask used to regrid the tile files.
+STATIC_CTL="/scratch2/NCEPDEV/land/data/ufs-land-driver/vector_inputs/C"${RES_CTL}".mx025/ufs-land_C"${RES_CTL}".mx025_hr3_static_fields.nc"
+
+
+# if using change_res scipts here will need to set these: 
+# NOTE: I don't think I'm extracting the files at the right time for the 
+# desired GFSv17 test cases.
+
 RES_ENS_IN=384 # NOTE: these are hard-wired in chres nml.template files
 RES_CTL_IN=768
+UFS_UTILS=${HERE}/UFS_UTILS/
+arch_tag="v16.3"
 
-UFS_UTILS=/scratch2/BMC/gsienkf/Clara.Draper/create_ens/UFS_UTILS/
-DIROUT=/scratch2/BMC/gsienkf/Clara.Draper/create_ens/change_res/
-WORKDIR=/scratch2/BMC/gsienkf/Clara.Draper/create_ens/workdir
+DIROUT=${HERE}/change_res/ # output directory for change_res
+WORKDIR=${HERE}/workdir # not sure this is used?
+DIRVEC=${HERE}/spin_vec # spun-up land restarts on vector
+DIRTILE=${HERE}/spin_tile  # tile files with spun-up vector inserted
+
+echo "HERE $HERE"
  
 ####################
 # shouldn't have to change anything below here.
@@ -25,15 +42,15 @@ nanals=10 # CSD testing
 LEVS=127 
 LEVSP1=`expr $LEVS + 1`
 
-YYYY=`echo $date | cut -c1-4`
-YYYYMM=`echo $date | cut -c1-6`
-YYYYMMDD=`echo $date | cut -c1-8`
-HH=`echo $date | cut -c9-10`
-MM=`echo $date | cut -c5-6`
-DD=`echo $date | cut -c7-8`
-YYYYp3=`echo $datep3 | cut -c1-4`
-YYYYMMp3=`echo $datep3 | cut -c1-6`
-YYYYMMDDp3=`echo $datep3 | cut -c1-8`
-HHp3=`echo $datep3 | cut -c9-10`
-MMp3=`echo $datep3 | cut -c5-6`
-DDp3=`echo $datep3 | cut -c7-8`
+YYYY=`echo $CYCL_DATE | cut -c1-4`
+YYYYMM=`echo $CYCL_DATE | cut -c1-6`
+YYYYMMDD=`echo $CYCL_DATE | cut -c1-8`
+HH=`echo $CYCL_DATE | cut -c9-10`
+MM=`echo $CYCL_DATE | cut -c5-6`
+DD=`echo $CYCL_DATE | cut -c7-8`
+YYYYp3=`echo $VALID_DATE | cut -c1-4`
+YYYYMMp3=`echo $VALID_DATE | cut -c1-6`
+YYYYMMDDp3=`echo $VALID_DATE | cut -c1-8`
+HHp3=`echo $VALID_DATE | cut -c9-10`
+MMp3=`echo $VALID_DATE | cut -c5-6`
+DDp3=`echo $VALID_DATE | cut -c7-8`

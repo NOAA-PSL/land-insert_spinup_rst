@@ -1,3 +1,7 @@
+# this is Helin's original code to insert land ICS spun-up 
+# offline (vector) format into cold start tile files. 
+# Based on Mike Barlage's earlier code. March 2025.
+# 
 import os
 import numpy as np
 from netCDF4 import Dataset

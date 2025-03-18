@@ -40,7 +40,7 @@ cat fort.41
 echo "srun $CHGRES_EXEC"
 srun $CHGRES_EXEC
 
-OUTDIR=$DIROUT/C${RES_CTL}/${datep3}
+OUTDIR=$DIROUT/C${RES_CTL}/${VALID_DATE}
 ls -l
 /bin/mv -f gfs_ctrl.nc $OUTDIR
 tiles="tile1 tile2 tile3 tile4 tile5 tile6"
@@ -48,8 +48,6 @@ for tile in $tiles; do
   /bin/mv -f out.atm.${tile}.nc $OUTDIR/gfs_data.${tile}.nc
   /bin/mv -f out.sfc.${tile}.nc $OUTDIR/sfc_data.${tile}.nc
 done
-
-exit
 
 nanal=1
 while [ $nanal -le $nanals ]; do
@@ -62,7 +60,7 @@ while [ $nanal -le $nanals ]; do
     echo "srun $CHGRES_EXEC"
     srun $CHGRES_EXEC
 
-    OUTDIR=${DIROUT}/C${RES_ENS}/${datep3}/${charnanal}
+    OUTDIR=${DIROUT}/C${RES_ENS}/${VALID_DATE}/${charnanal}
     /bin/rm -rf $OUTDIR
     mkdir -p $OUTDIR
 
