@@ -11,10 +11,10 @@ module load hpss
 module list
 
 mkdir -p $WORKDIR
-mkdir -p $DIROUT/C${RES_ENS}/${VALID_DATE}
-mkdir -p $DIROUT/C${RES_CTL}/${VALID_DATE}
-mkdir -p $DIROUT/C${RES_ENS_IN}/${VALID_DATE}
-mkdir -p $DIROUT/C${RES_CTL_IN}/${VALID_DATE}
+mkdir -p $CHNGRESDIR/C${RES_ENS}/${VALID_DATE}
+mkdir -p $CHNGRESDIR/C${RES_CTL}/${VALID_DATE}
+mkdir -p $CHNGRESDIR/C${RES_ENS_IN}/${VALID_DATE}
+mkdir -p $CHNGRESDIR/C${RES_CTL_IN}/${VALID_DATE}
 
 
 datestring="${YYYYMMDDp3}.${HHp3}0000."
@@ -30,7 +30,7 @@ htar -xvf $hpsspath/com_gfs_${arch_tag}_gdas.${YYYYMMDD}_${HH}.gdas_restart.tar
 
 # copy required files
 
-OUTDIR=$DIROUT/C${RES_CTL}/${VALID_DATE}
+OUTDIR=$CHNGRESDIR/C${RES_CTL}/${VALID_DATE}
 /bin/cp -f gdas.${YYYYMMDD}/${HH}/atmos/gdas.t${HH}z.abias $OUTDIR/gdas.t${HHp3}z.abias
 /bin/cp -f gdas.${YYYYMMDD}/${HH}/atmos/gdas.t${HH}z.abias_pc $OUTDIR/gdas.t${HHp3}z.abias_pc
 /bin/cp -f gdas.${YYYYMMDD}/${HH}/atmos/gdas.t${HH}z.abias_air $OUTDIR/gdas.t${HHp3}z.abias_air
@@ -60,7 +60,7 @@ while [ $ngrp -le $ngrps ]; do
      charnanal="mem`printf %03i $nanal`"
      pushd enkfgdas.${YYYYMMDD}/${HH}/atmos/${charnanal}/RESTART
      n=$((n+1))
-     OUTDIR=$DIROUT/C${RES_ENS_IN}/${VALID_DATE}/${charnanal}
+     OUTDIR=$CHNGRESDIR/C${RES_ENS_IN}/${VALID_DATE}/${charnanal}
      mkdir $OUTDIR
      for file in ${datestring}*nc; do
         file2=`echo $file | cut -f3-10 -d"."`

@@ -4,7 +4,7 @@ import numpy as np
 from netCDF4 import Dataset
 
 # minimum allowed smc (and slc) value 
-smc_min=0.0
+smc_min=0.02
 
 
 ##############################
@@ -74,9 +74,10 @@ for n in range(0,n_ens):
         # read in the ensemble mean
         if (n_ens>1):
 
-            ensmean_file = tile_dir+"ensmean/sfc_data.tile"+str(itile)+".nc"
+            ensmean_file = tile_dir+"ensmean_chgres/sfc_data.tile"+str(itile)+".nc"
             ncid = Dataset(ensmean_file)
 
+            # pert = ensemble value - mean
             pert_slc = tile_slc - ncid.variables['slc'][:]
             pert_stc = tile_stc - ncid.variables['stc'][:]
             pert_swe = tile_swe - ncid.variables['weasdl'][:]
@@ -94,8 +95,10 @@ for n in range(0,n_ens):
                 if tile_veg[idim0, idim1] != 0:
                     nloc += 1
 
-                    # insert vector values
+                    ################################
+                    # insert vector values plus ensembel pert
                     tile_stc[0, :, idim0, idim1] = vec_stc[:, nloc] + pert_stc[0, :, idim0, idim1]
+
                     # note: applying slc pert to slc and smc (frozen soil moisture same for all members)
                     # note: potentially allowing soil moisture above porosity. I think the model fixes this.
 
@@ -103,8 +106,11 @@ for n in range(0,n_ens):
                         tile_smc[0, l, idim0, idim1] = max(smc_min, vec_smc[l, nloc] + pert_slc[0, l, idim0, idim1])
                         tile_slc[0, l, idim0, idim1] = max(smc_min, vec_slc[l, nloc] + pert_slc[0, l, idim0, idim1])
 
-                    tile_swe[0, idim0, idim1] = max(0.0, vec_swe[nloc])
-                    tile_snd[0, idim0, idim1] = max(0.0, vec_snd[nloc])
+                    tile_swe[0, idim0, idim1] = max(0.0, vec_swe[nloc] + pert_swe[0,idim0,idim1])
+                    tile_snd[0, idim0, idim1] = max(0.0, vec_snd[nloc] + pert_snd[0,idim0,idim1])
+
+                    #################################
+                    # santity checks
 
                     # if spinup had little snow, set all members to no snow.
                     if (0.0 < vec_snd[nloc] < 1.0) or (0.0 < vec_swe[nloc] < 0.01):

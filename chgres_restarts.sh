@@ -32,7 +32,7 @@ export OMP_STACKSIZE=2048M
 datestring="${YYYYMMDDp3}.${HHp3}0000."
 echo $datestring
 
-cd $DIROUT
+cd $CHNGRESDIR
 
 sed "s/<RES>/${RES_CTL}/g; s/<LEVSP1>/${LEVSP1}/g; s/<member>/control/g; s/<YYYYMMDD>/${YYYYMMDDp3}/g; s/<MM>/${MMp3}/g; s/<DD>/${DDp3}/g; s/<HH>/${HHp3}/g"  ${SLURM_SUBMIT_DIR}/config_control.nml.template > ./fort.41
 cat fort.41
@@ -40,7 +40,7 @@ cat fort.41
 echo "srun $CHGRES_EXEC"
 srun $CHGRES_EXEC
 
-OUTDIR=$DIROUT/C${RES_CTL}/${VALID_DATE}
+OUTDIR=$CHNGRESDIR/C${RES_CTL}/${VALID_DATE}
 ls -l
 /bin/mv -f gfs_ctrl.nc $OUTDIR
 tiles="tile1 tile2 tile3 tile4 tile5 tile6"
@@ -60,7 +60,7 @@ while [ $nanal -le $nanals ]; do
     echo "srun $CHGRES_EXEC"
     srun $CHGRES_EXEC
 
-    OUTDIR=${DIROUT}/C${RES_ENS}/${VALID_DATE}/${charnanal}
+    OUTDIR=${CHNGRESDIR}/C${RES_ENS}/${VALID_DATE}/${charnanal}
     /bin/rm -rf $OUTDIR
     mkdir -p $OUTDIR
 

@@ -23,7 +23,7 @@ RES_CTL_IN=768
 UFS_UTILS=${HERE}/UFS_UTILS/
 arch_tag="v16.3"
 
-DIROUT=${HERE}/change_res/ # output directory for change_res
+CHNGRESDIR=${HERE}/change_res/ # output directory for change_res
 WORKDIR=${HERE}/workdir # not sure this is used?
 DIRVEC=${HERE}/spin_vec # spun-up land restarts on vector
 DIRTILE=${HERE}/spin_tile  # tile files with spun-up vector inserted

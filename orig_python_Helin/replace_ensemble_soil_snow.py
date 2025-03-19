@@ -2,6 +2,7 @@ import os
 import numpy as np
 from netCDF4 import Dataset
 
+# Clara's orginal ensemble insert script
 # replace soil and snow in each member with mem_rescaled + (spunup - <mem_rescaled>)
 
 # set these variables
