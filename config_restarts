@@ -14,11 +14,6 @@ VALID_DATE=`incdate $CYCL_DATE 3` #  requested data of restarts (is this correct
 RES_ENS=96
 RES_CTL=192
 
-# static files used spinning up the offline (vector) restart.
-# Note this needs to match the land mask used to regrid the tile files.
-STATIC_CTL="/scratch2/NCEPDEV/land/data/ufs-land-driver/vector_inputs/C"${RES_CTL}".mx025/ufs-land_C"${RES_CTL}".mx025_hr3_static_fields.nc"
-
-
 # if using change_res scipts here will need to set these: 
 # NOTE: I don't think I'm extracting the files at the right time for the 
 # desired GFSv17 test cases.
