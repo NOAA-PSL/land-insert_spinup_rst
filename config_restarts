@@ -20,9 +20,9 @@ RES_CTL=192
 
 RES_ENS_IN=384 # NOTE: these are hard-wired in chres nml.template files
 RES_CTL_IN=768
-UFS_UTILS=${HERE}/UFS_UTILS/
 arch_tag="v16.3"
 
+UFS_UTILS=${HERE}/UFS_UTILS/
 CHNGRESDIR=${HERE}/change_res/ # output directory for change_res
 WORKDIR=${HERE}/workdir # not sure this is used?
 DIRVEC=${HERE}/spin_vec # spun-up land restarts on vector
@@ -33,7 +33,7 @@ echo "HERE $HERE"
 ####################
 # shouldn't have to change anything below here.
 
-nanals=10 # CSD testing
+nanals=80
 LEVS=127 
 LEVSP1=`expr $LEVS + 1`
 

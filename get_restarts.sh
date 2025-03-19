@@ -3,12 +3,10 @@
 # Script to extract ICS from the arhives.
 # Clara Draper, based on Jeff Whitaker's script.
 # Invoke as: sh $script
+# requires module load hpss
 #-----------------------------------------------------------
 
 source config_restarts
-
-module load hpss
-module list
 
 mkdir -p $WORKDIR
 mkdir -p $CHNGRESDIR/C${RES_ENS}/${VALID_DATE}
@@ -49,8 +47,7 @@ ls -l $OUTDIR/control
 
 # get ens restarts
 ngrp=1
-#ngrps=8 
-ngrps=1 # CSD -testing
+ngrps=8 
 while [ $ngrp -le $ngrps ]; do
   htar -xvf $hpsspath/com_gfs_${arch_tag}_enkfgdas.${YYYYMMDD}_${HH}.enkfgdas_restart_grp${ngrp}.tar
   ngrpm1=$((ngrp-1))
