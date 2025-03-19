@@ -16,14 +16,15 @@ Instructions:
 
 1. Set desired dates, resolutions, and directories in config_restarts 
 
-2. Extract (operational) restarts from archives.
+IF NEED TO EXTRACT FILES FROM THE ARCHIVE:
+    2. Extract (operational) restarts from archives.
 
->module load hpss
->sh get_restarts.sh
+    >module load hpss
+    >sh get_restarts.sh
 
-3. Change to desired resolution 
+    3. Change to desired resolution 
 
->sbatch chgres_restarts.sh
+    >sbatch chgres_restarts.sh
 
 4. Copy the spun-up vector files into ./spin_vec/$RES\_[ENS/CTL]/
 
