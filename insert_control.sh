@@ -17,7 +17,7 @@ source config_restarts
 
 # change to delete pre-existing directories
 
-python  replace_soil_snow.py ${VALID_DATE} ${RES_CTL} ${DIRTILE}/C${RES_CTL}/${VALID_DATE}/ ${DIRVEC}/C${RES_CTL}/
+python  replace_soil_snow.py ${VALID_DATE} ${RES_CTL} 1 ${DIRTILE}/C${RES_CTL}/${VALID_DATE}/ ${DIRVEC}/C${RES_CTL}/
 
 
 
