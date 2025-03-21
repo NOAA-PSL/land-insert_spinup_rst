@@ -1,10 +1,10 @@
 #!/bin/bash
-#-----------------------------------------------------------
-# Script to extract ICS from the arhives.
-# Clara Draper, based on Jeff Whitaker's script.
-# Invoke as: sh $script
-# requires module load hpss
-#-----------------------------------------------------------
+#SBATCH --ntasks=1 -p service
+#SBATCH -A fv3-cpu
+#SBATCH -t 12:00:00
+#SBATCH -q batch
+#SBATCH -o slurm-get_restarts-%j.out
+#SBATCH -J get_restarts
 
 source config_restarts
 
@@ -28,7 +28,7 @@ htar -xvf $hpsspath/com_gfs_${arch_tag}_gdas.${YYYYMMDD}_${HH}.gdas_restart.tar
 
 # copy required files
 
-OUTDIR=$CHNGRESDIR/C${RES_CTL}/${VALID_DATE}
+OUTDIR=$CHNGRESDIR/C${RES_CTL_IN}/${VALID_DATE}
 /bin/cp -f gdas.${YYYYMMDD}/${HH}/atmos/gdas.t${HH}z.abias $OUTDIR/gdas.t${HHp3}z.abias
 /bin/cp -f gdas.${YYYYMMDD}/${HH}/atmos/gdas.t${HH}z.abias_pc $OUTDIR/gdas.t${HHp3}z.abias_pc
 /bin/cp -f gdas.${YYYYMMDD}/${HH}/atmos/gdas.t${HH}z.abias_air $OUTDIR/gdas.t${HHp3}z.abias_air

@@ -35,6 +35,7 @@ IF NEED TO EXTRACT FILES FROM THE ARCHIVE:
 
 6. Insert the spun-up vector states into the control and ensemble 
 
+>source env_python
 >sh insert_control.sh 
 >sh insert_ensemble.sh
 
