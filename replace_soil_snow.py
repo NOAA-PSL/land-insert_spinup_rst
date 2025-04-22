@@ -12,8 +12,8 @@ smc_min=0.02
 if (len(sys.argv) != 6): 
         for i, arg in enumerate(sys.argv):
                 print(f"Argument {i}: {arg}")
-        str = f" ** Error: expecting 5 arguments: \n ** YYYYMMDDHH resolution n_ens directory_tiles directory_vector"
-        sys.exit(str)
+        str_err = f" ** Error: expecting 5 arguments: \n ** YYYYMMDDHH resolution n_ens directory_tiles directory_vector"
+        sys.exit(str_err)
 
 datestring   = sys.argv[1]
 res          = sys.argv[2]
@@ -150,8 +150,8 @@ for n in range(0,n_ens):
         ncid.close()
 
     if num_in_tiles != num_in_vector:
-        str = f" ** Error: Number in tiles != number in vector"
-        sys.exit(str)
+        str_err = f" ** Error: Number in tiles != number in vector"
+        sys.exit(str_err)
 
     print(f"Num high_snow_removal: {high_snow_removal}")
     print(f"Num low_snow_removal: {low_snow_removal}")
