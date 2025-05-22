@@ -34,10 +34,11 @@ echo $datestring
 
 cd $CHNGRESDIR
 
-sed "s/<RES>/${RES_CTL}/g; s/<LEVSP1>/${LEVSP1}/g; s/<member>/control/g; s/<YYYYMMDD>/${YYYYMMDDp3}/g; s/<MM>/${MMp3}/g; s/<DD>/${DDp3}/g; s/<HH>/${HHp3}/g"  ${SLURM_SUBMIT_DIR}/config_control.nml.template > ./fort.41
+sed "s/<RES>/${RES_CTL}/g; s/<LEVSP1>/${LEVSP1}/g; s/<member>/control/g; s/<YYYYMMDD>/${YYYYMMDDp3}/g; s/<MM>/${MMp3}/g; s/<DD>/${DDp3}/g; s/<HH>/${HHp3}/g; s|<CHNGRESDIR>|${CHNGRESDIR}|g"  ${SLURM_SUBMIT_DIR}/config_control.nml.template > ./fort.41
 cat fort.41
 
 echo "srun $CHGRES_EXEC"
+
 srun $CHGRES_EXEC
 
 OUTDIR=$CHNGRESDIR/C${RES_CTL}/${VALID_DATE}
@@ -54,7 +55,7 @@ while [ $nanal -le $nanals ]; do
     charnanal="mem`printf %03i $nanal`"
     echo "charnanal=$charnanal"
 
-    sed "s/<RES>/${RES_ENS}/g; s/<LEVSP1>/${LEVSP1}/g; s/<member>/${charnanal}/g; s/<YYYYMMDD>/${YYYYMMDDp3}/g; s/<MM>/${MMp3}/g; s/<DD>/${DDp3}/g; s/<HH>/${HHp3}/g"  ${SLURM_SUBMIT_DIR}/config_ens.nml.template > ./fort.41
+    sed "s/<RES>/${RES_ENS}/g; s/<LEVSP1>/${LEVSP1}/g; s/<member>/${charnanal}/g; s/<YYYYMMDD>/${YYYYMMDDp3}/g; s/<MM>/${MMp3}/g; s/<DD>/${DDp3}/g; s/<HH>/${HHp3}/g; s|<CHNGRESDIR>|${CHNGRESDIR}|g"  ${SLURM_SUBMIT_DIR}/config_ens.nml.template > ./fort.41
     cat fort.41
 
     echo "srun $CHGRES_EXEC"

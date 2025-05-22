@@ -20,7 +20,7 @@ if [ $do_control == "YES" ]; then
     mkdir -p $new_dir
 
     # copy restarts from change-res
-    cp $CHNGRESDIR/C${RES_CTL}/${VALID_DATE}/*  $DIRTILE/C${RES_CTL}/${VALID_DATE}/
+    cp -r $CHNGRESDIR/C${RES_CTL}/${VALID_DATE}/*  $DIRTILE/C${RES_CTL}/${VALID_DATE}/
 fi
 
 if [ $do_ensemble == "YES" ]; then
