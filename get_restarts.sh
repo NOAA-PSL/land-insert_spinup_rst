@@ -1,4 +1,8 @@
 #!/bin/bash
+## ----------------------------------------------------------
+## Invoke as: sh $script
+## requires module load hpss
+## ----------------------------------------------------------
 #SBATCH --ntasks=1 -p service
 #SBATCH -A fv3-cpu
 #SBATCH -t 12:00:00
