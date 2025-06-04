@@ -20,6 +20,11 @@ IF NEED TO EXTRACT FILES FROM THE ARCHIVE:
     2. Extract (operational) restarts from archives.
 
     >module load hpss
+IF use computing node to download data from HPSS:
+    > sbatch get_restarts.sh
+
+IF use login node and interactively download data from HPSS. 
+In this case, batch job setup part needs to be removed
     >sh get_restarts.sh
 
     3. Change to desired resolution 
@@ -35,6 +40,7 @@ IF NEED TO EXTRACT FILES FROM THE ARCHIVE:
 
 6. Insert the spun-up vector states into the control and ensemble 
 
+>source env_python
 >sh insert_control.sh 
 >sh insert_ensemble.sh
 
