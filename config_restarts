@@ -21,7 +21,9 @@ RES_CTL=192
 
 RES_ENS_IN=384 # NOTE: these are hard-wired in chres nml.template files
 RES_CTL_IN=768
-#arch_tag="v16.2" # Yanjun
+#arch_tag="v16.3" # 20221129 and after 20221129
+#arch_tag="v16.2" # 20220627 - 20221128 Yanjun
+#arch_tag="prod"  # 20220626 and before 20220626
 arch_tag="v16.3" # will depend on time period
 
 UFS_UTILS=${HERE}/UFS_UTILS/
