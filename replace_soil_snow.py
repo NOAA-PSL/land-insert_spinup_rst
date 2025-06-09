@@ -6,6 +6,7 @@ from netCDF4 import Dataset
 # minimum allowed smc (and slc) value 
 smc_min=0.02
 
+print_lims=True # print min / max change for each variable
 
 ##############################
 # get args
@@ -45,6 +46,9 @@ print(f"Num in vector: {num_in_vector}")
 ##############################
 # Loop over tile files
 
+var_list = ['smc','slc','stc','weasdl','snodl']
+n_var = len(var_list)
+
 for n in range(0,n_ens):
 
     print(f"Starting ensemble: {n+1}")
@@ -53,12 +57,14 @@ for n in range(0,n_ens):
     low_snow_removal = 0
 
     for itile in range(1, 7):
-        #print(f"Starting tile: {itile}")
+        print(f"Starting tile: {itile}")
+        min_val = np.full((n_var,4),0.)
+        max_val = np.full((n_var,4),0.)
 
         if (n_ens==1): # control
-                tile_file = tile_dir+"sfc_data.tile"+str(itile)+".nc"
+                tile_file = tile_dir+"model/atmos/input/sfc_data.tile"+str(itile)+".nc"
         else:
-                tile_file = tile_dir+"mem"+str(n+1).zfill(3)+"/sfc_data.tile"+str(itile)+".nc"
+                tile_file = tile_dir+"mem"+str(n+1).zfill(3)+"/model/atmos/input/sfc_data.tile"+str(itile)+".nc"
 
         ncid_tile = Dataset(tile_file, 'r+')
 
@@ -96,18 +102,39 @@ for n in range(0,n_ens):
                     nloc += 1
 
                     ################################
-                    # insert vector values plus ensembel pert
-                    tile_stc[0, :, idim0, idim1] = vec_stc[:, nloc] + pert_stc[0, :, idim0, idim1]
+                    # insert vector values plus ensemble pert
+                    # don't use soil values under glaciers
+                    if (tile_veg[idim0,idim1] != 15):
+                        for l in np.arange(4):
+                            orig = tile_stc[0, l, idim0, idim1]
+                            tile_stc[0, l, idim0, idim1] = vec_stc[l, nloc] + pert_stc[0, l, idim0, idim1]
+                            min_val[2,l] = min(min_val[2,l],tile_stc[0, l, idim0, idim1] - orig)
+                            max_val[2,l] = max(max_val[2,l],tile_stc[0, l, idim0, idim1] - orig)
 
-                    # note: applying slc pert to slc and smc (frozen soil moisture same for all members)
-                    # note: potentially allowing soil moisture above porosity. I think the model fixes this.
+                        # note: applying slc pert to slc and smc (frozen soil moisture same for all members)
+                        # note: potentially allowing soil moisture above porosity. I think the model fixes this.
 
-                    for l in np.arange(4):
-                        tile_smc[0, l, idim0, idim1] = max(smc_min, vec_smc[l, nloc] + pert_slc[0, l, idim0, idim1])
-                        tile_slc[0, l, idim0, idim1] = max(smc_min, vec_slc[l, nloc] + pert_slc[0, l, idim0, idim1])
+                        for l in np.arange(4):
+                            orig = tile_smc[0, l, idim0, idim1]
+                            tile_smc[0, l, idim0, idim1] = max(smc_min, vec_smc[l, nloc] + pert_slc[0, l, idim0, idim1])
 
+                            min_val[0,l] = min(min_val[0,l],tile_smc[0, l, idim0, idim1] - orig)
+                            max_val[0,l] = max(max_val[0,l],tile_smc[0, l, idim0, idim1] - orig)
+
+                            orig = tile_slc[0, l, idim0, idim1]
+                            tile_slc[0, l, idim0, idim1] = max(smc_min, vec_slc[l, nloc] + pert_slc[0, l, idim0, idim1])
+                            min_val[1,l] = min(min_val[1,l],tile_slc[0, l, idim0, idim1] - orig)
+                            max_val[1,l] = max(max_val[1,l],tile_slc[0, l, idim0, idim1] - orig)
+
+                    orig = tile_swe[0, idim0, idim1]
                     tile_swe[0, idim0, idim1] = max(0.0, vec_swe[nloc] + pert_swe[0,idim0,idim1])
+                    min_val[3,0] = min(min_val[3,0],tile_swe[0,  idim0, idim1] - orig)
+                    max_val[3,0] = max(max_val[3,0],tile_swe[0,  idim0, idim1] - orig)
+
+                    orig = tile_snd[0, idim0, idim1]
                     tile_snd[0, idim0, idim1] = max(0.0, vec_snd[nloc] + pert_snd[0,idim0,idim1])
+                    min_val[4,0] = min(min_val[4,0],tile_snd[0,  idim0, idim1] - orig)
+                    max_val[4,0] = max(max_val[4,0],tile_snd[0,  idim0, idim1] - orig)
 
                     #################################
                     # santity checks
@@ -152,6 +179,17 @@ for n in range(0,n_ens):
     if num_in_tiles != num_in_vector:
         str_err = f" ** Error: Number in tiles != number in vector"
         sys.exit(str_err)
+ 
+    if print_lims:
+        for v in np.arange(3):
+            for l in np.arange(4):
+                print(f"min {var_list[v]}, level {l}:  {min_val[v,l]}")
+                print(f"max {var_list[v]}, level {l}:  {max_val[v,l]}")
+
+        for v in [3,4]:
+            l=0
+            print(f"min {var_list[v]}, level {l}:  {min_val[v,l]}")
+            print(f"max {var_list[v]}, level {l}:  {max_val[v,l]}")
 
     print(f"Num high_snow_removal: {high_snow_removal}")
     print(f"Num low_snow_removal: {low_snow_removal}")

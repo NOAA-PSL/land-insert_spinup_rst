@@ -1,10 +1,10 @@
 
 &config
  mosaic_file_target_grid="/scratch1/NCEPDEV/global/glopara/fix/orog/20231027/C<RES>/C<RES>_mosaic.nc"
- mosaic_file_input_grid="/scratch1/NCEPDEV/global/glopara/fix/orog/20231027/C384/C384_mosaic.nc"
+ mosaic_file_input_grid="/scratch1/NCEPDEV/global/glopara/fix/orog/20230615/C384/C384_mosaic.nc"
  fix_dir_target_grid="/scratch1/NCEPDEV/global/glopara/fix/orog/20231027/C<RES>/sfc"
- orog_dir_input_grid="/scratch1/NCEPDEV/global/glopara/fix/orog/20231027/C384"
- orog_files_input_grid="C384.mx025_oro_data.tile1.nc","C384.mx025_oro_data.tile2.nc","C384.mx025_oro_data.tile3.nc","C384.mx025_oro_data.tile4.nc","C384.mx025_oro_data.tile5.nc","C384.mx025_oro_data.tile6.nc"
+ orog_dir_input_grid="/scratch1/NCEPDEV/global/glopara/fix/orog/20230615/C384"
+ orog_files_input_grid="C384_oro_data.tile1.nc","C384_oro_data.tile2.nc","C384_oro_data.tile3.nc","C384_oro_data.tile4.nc","C384_oro_data.tile5.nc","C384_oro_data.tile6.nc"
  orog_dir_target_grid="/scratch1/NCEPDEV/global/glopara/fix/orog/20231027/C<RES>"
  orog_files_target_grid="C<RES>.mx025_oro_data.tile1.nc","C<RES>.mx025_oro_data.tile2.nc","C<RES>.mx025_oro_data.tile3.nc","C<RES>.mx025_oro_data.tile4.nc","C<RES>.mx025_oro_data.tile5.nc","C<RES>.mx025_oro_data.tile6.nc"
  data_dir_input_grid="<CHNGRESDIR>/C384/<YYYYMMDD><HH>/<member>"

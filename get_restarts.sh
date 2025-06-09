@@ -28,7 +28,7 @@ htar -xvf $hpsspath/com_gfs_${arch_tag}_gdas.${YYYYMMDD}_${HH}.gdas_restart.tar
 
 # copy required files
 
-OUTDIR=$CHNGRESDIR/C${RES_CTL}/${VALID_DATE}
+OUTDIR=$CHNGRESDIR/C${RES_CTL_IN}/${VALID_DATE}
 /bin/cp -f gdas.${YYYYMMDD}/${HH}/atmos/gdas.t${HH}z.abias $OUTDIR/gdas.t${HHp3}z.abias
 /bin/cp -f gdas.${YYYYMMDD}/${HH}/atmos/gdas.t${HH}z.abias_pc $OUTDIR/gdas.t${HHp3}z.abias_pc
 /bin/cp -f gdas.${YYYYMMDD}/${HH}/atmos/gdas.t${HH}z.abias_air $OUTDIR/gdas.t${HHp3}z.abias_air
