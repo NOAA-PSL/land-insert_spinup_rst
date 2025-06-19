@@ -24,7 +24,7 @@ if [ $do_control == "YES" ]; then
 
     # CSD - to do, copy gdas files
     mkdir -p $DIRTILE/C${RES_CTL}/gdas.${YYYYMMDD}/${HH}/analysis/atmos
-    cp $CHNGRESDIR/inputs/C${RES_CTL}/${VALID_DATE}/gdas*abias* $DIRTILE/C${RES_CTL}/gdas.${YYYYMMDD}/${HH}/analysis/atmos
+    cp $CHNGRESDIR/inputs/C${RES_CTL_IN}/${VALID_DATE}/gdas*abias* $DIRTILE/C${RES_CTL}/gdas.${YYYYMMDD}/${HH}/analysis/atmos
 fi
 
 if [ $do_ensemble == "YES" ]; then

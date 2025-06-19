@@ -15,7 +15,7 @@ source config_restarts
 #module load anaconda/latest
 #python=/contrib/anaconda/anaconda3/latest/bin/python # hera!
 
-python  replace_soil_snow.py ${VALID_DATE} ${RES_ENS} ${nanals} $DIRTILE/C${RES_CTL}/enkfgdas.${YYYYMMDD}/${HH}/ ${DIRVEC}/C${RES_ENS}/
+python  replace_soil_snow.py ${VALID_DATE} ${RES_ENS} ${nanals} $DIRTILE/C${RES_ENS}/enkfgdas.${YYYYMMDD}/${HH}/ ${DIRVEC}/C${RES_ENS}/
 
 
 
