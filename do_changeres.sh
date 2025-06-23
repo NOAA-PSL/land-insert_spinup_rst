@@ -24,7 +24,6 @@ set -x
 export ocn=025
 export VCOORD_FILE=${HOMEufs}/fix/am/global_hyblev.l128.txt
 export INPUT_TYPE='restart'
-export INPUT_OROG="/scratch1/NCEPDEV/global/glopara/fix/orog/20230615/C${CRES_IN}/"
 export MOSAIC_FILE_INPUT_GRID="${INPUT_OROG}/C${CRES_IN}_mosaic.nc"
 export OROG_DIR_INPUT_GRID=${INPUT_OROG}
 

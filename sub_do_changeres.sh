@@ -18,8 +18,6 @@
 
 source config_restarts
 
-
-
 ##############################################
 # set up environment 
 ##############################################
@@ -45,6 +43,7 @@ export APRUN=srun
 
 export UFS_UTILS
 export CYCL_DATE
+export INPUT_OROG
 
 #############################################
 # control

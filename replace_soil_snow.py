@@ -103,16 +103,27 @@ for n in range(0,n_ens):
 
                     ################################
                     # insert vector values plus ensemble pert
-                    # don't use soil values under glaciers
-                    if (tile_veg[idim0,idim1] != 15):
-                        for l in np.arange(4):
-                            orig = tile_stc[0, l, idim0, idim1]
-                            tile_stc[0, l, idim0, idim1] = vec_stc[l, nloc] + pert_stc[0, l, idim0, idim1]
-                            min_val[2,l] = min(min_val[2,l],tile_stc[0, l, idim0, idim1] - orig)
-                            max_val[2,l] = max(max_val[2,l],tile_stc[0, l, idim0, idim1] - orig)
 
+                    # soil temperatures
+                    #for l in np.arange(4):
+                    #    orig = tile_stc[0, l, idim0, idim1]
+                    #    tile_stc[0, l, idim0, idim1] = vec_stc[l, nloc] + pert_stc[0, l, idim0, idim1]
+                    #    min_val[2,l] = min(min_val[2,l],tile_stc[0, l, idim0, idim1] - orig)
+                    #    max_val[2,l] = max(max_val[2,l],tile_stc[0, l, idim0, idim1] - orig)
+
+                    # don't use soil moisture values under glaciers
+                    # note: spun-up vector restarts have slc=0, smc=1 under glaciers
+                    #       tile restarts from change_res have slc=1, smc=1
+                    if (tile_veg[idim0,idim1] != 15):
                         # note: applying slc pert to slc and smc (frozen soil moisture same for all members)
                         # note: potentially allowing soil moisture above porosity. I think the model fixes this.
+
+                        # check have expected values
+                        if ( tile_smc[0, 0, idim0, idim1] > 0.99 or vec_smc[0,nloc]>0.99):
+                            print(f"tile_smc: {tile_smc[0, l, idim0, idim1]}") 
+                            print(f"vec_smc: {vec_smc[0,nloc]}") 
+                            str_err = f" ** Error:  expecting soil moisture value, got 1."
+                            sys.exit(str_err)
 
                         for l in np.arange(4):
                             orig = tile_smc[0, l, idim0, idim1]
@@ -125,44 +136,49 @@ for n in range(0,n_ens):
                             tile_slc[0, l, idim0, idim1] = max(smc_min, vec_slc[l, nloc] + pert_slc[0, l, idim0, idim1])
                             min_val[1,l] = min(min_val[1,l],tile_slc[0, l, idim0, idim1] - orig)
                             max_val[1,l] = max(max_val[1,l],tile_slc[0, l, idim0, idim1] - orig)
+                    else: # return error if glacier locations dont' match
+                        if ( vec_smc[0,nloc]<1.):
+                            str_err = f" ** Error:  check glacier masks match"
+                            sys.exit(str_err)
+                    
+                    if ( 1 == 0): # turn off snow updates
+                        orig = tile_swe[0, idim0, idim1]
+                        tile_swe[0, idim0, idim1] = max(0.0, vec_swe[nloc] + pert_swe[0,idim0,idim1])
+                        min_val[3,0] = min(min_val[3,0],tile_swe[0,  idim0, idim1] - orig)
+                        max_val[3,0] = max(max_val[3,0],tile_swe[0,  idim0, idim1] - orig)
 
-                    orig = tile_swe[0, idim0, idim1]
-                    tile_swe[0, idim0, idim1] = max(0.0, vec_swe[nloc] + pert_swe[0,idim0,idim1])
-                    min_val[3,0] = min(min_val[3,0],tile_swe[0,  idim0, idim1] - orig)
-                    max_val[3,0] = max(max_val[3,0],tile_swe[0,  idim0, idim1] - orig)
+                        orig = tile_snd[0, idim0, idim1]
+                        tile_snd[0, idim0, idim1] = max(0.0, vec_snd[nloc] + pert_snd[0,idim0,idim1])
+                        min_val[4,0] = min(min_val[4,0],tile_snd[0,  idim0, idim1] - orig)
+                        max_val[4,0] = max(max_val[4,0],tile_snd[0,  idim0, idim1] - orig)
 
-                    orig = tile_snd[0, idim0, idim1]
-                    tile_snd[0, idim0, idim1] = max(0.0, vec_snd[nloc] + pert_snd[0,idim0,idim1])
-                    min_val[4,0] = min(min_val[4,0],tile_snd[0,  idim0, idim1] - orig)
-                    max_val[4,0] = max(max_val[4,0],tile_snd[0,  idim0, idim1] - orig)
+                        #################################
+                        # santity checks
 
-                    #################################
-                    # santity checks
+                        # if spinup had little snow, set all members to no snow.
+                        if (0.0 < vec_snd[nloc] < 1.0) or (0.0 < vec_swe[nloc] < 0.01):
+                            if print_low_snow_removal:
+                                print(f"Removing location with SWE = {tile_swe[0,idim0,idim1]} and depth = {tile_snd[0,idim0,idim1]}")
+                            tile_swe[0, idim0, idim1] = 0.
+                            tile_snd[0, idim0, idim1] = 0.
+                            low_snow_removal += 1
 
-                    # if spinup had little snow, set all members to no snow.
-                    if (0.0 < vec_snd[nloc] < 1.0) or (0.0 < vec_swe[nloc] < 0.01):
-                        if print_low_snow_removal:
-                            print(f"Removing location with SWE = {tile_swe[0,idim0,idim1]} and depth = {tile_snd[0,idim0,idim1]}")
-                        tile_swe[0, idim0, idim1] = 0.
-                        tile_snd[0, idim0, idim1] = 0.
-                        low_snow_removal += 1
+                        # boundary checks
+                        if tile_snd[0,idim0,idim1] > 2000.0 and tile_veg[idim0,idim1] == 15: # glaciers
+                            reduction_factor = 2000.0 / tile_snd[0,idim0,idim1]
+                            if print_high_snow_removal:
+                                print(f"Reducing glacier location with depth = {tile_snd[0,idim0,idim1]} by factor = {reduction_factor}")
+                            tile_snd[0,idim0,idim1] = 2000.0
+                            tile_swe[0,idim0,idim1] *= reduction_factor
+                            high_snow_removal += 1
 
-                    # boundary checks
-                    if tile_snd[0,idim0,idim1] > 2000.0 and tile_veg[idim0,idim1] == 15: # glaciers
-                        reduction_factor = 2000.0 / tile_snd[0,idim0,idim1]
-                        if print_high_snow_removal:
-                            print(f"Reducing glacier location with depth = {tile_snd[0,idim0,idim1]} by factor = {reduction_factor}")
-                        tile_snd[0,idim0,idim1] = 2000.0
-                        tile_swe[0,idim0,idim1] *= reduction_factor
-                        high_snow_removal += 1
-
-                    if tile_snd[0,idim0,idim1] > 10000.0:
-                        reduction_factor = 10000.0 / tile_snd[0,idim0,idim1]
-                        if print_high_snow_removal:
-                            print(f"Reducing non-glacier location with depth = {tile_snd[0,idim0,idim1]} by factor = {reduction_factor}")
-                        tile_snd[0,idim0,idim1] = 10000.0
-                        tile_swe[0,idim0,idim1] *= reduction_factor
-                        high_snow_removal += 1
+                        if tile_snd[0,idim0,idim1] > 10000.0:
+                            reduction_factor = 10000.0 / tile_snd[0,idim0,idim1]
+                            if print_high_snow_removal:
+                                print(f"Reducing non-glacier location with depth = {tile_snd[0,idim0,idim1]} by factor = {reduction_factor}")
+                            tile_snd[0,idim0,idim1] = 10000.0
+                            tile_swe[0,idim0,idim1] *= reduction_factor
+                            high_snow_removal += 1
 
 
         num_in_tiles = nloc + 1
