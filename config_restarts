@@ -8,18 +8,18 @@ HERE=$(pwd)
 
 #  SET VARS BELOW
 
-#CYCL_DATE=2022100100 # Yanjun
-CYCL_DATE=2024111500
-VALID_DATE=`incdate $CYCL_DATE 3` #  requested data of restarts (is this correct????)
+CYCL_DATE=2022100100 # Yanjun
+#CYCL_DATE=2024111500
+VALID_DATE=`incdate $CYCL_DATE 3` #  requested date of restarts (is this correct????)
 
 RES_ENS=96
-RES_CTL=192
+RES_CTL=96
 
 # if using change_res scipts here will need to set these: 
 # NOTE: I don't think I'm extracting the files at the right time for the 
 # desired GFSv17 test cases.
 
-RES_ENS_IN=384 # NOTE: these are hard-wired in chres nml.template files
+RES_ENS_IN=384 
 RES_CTL_IN=768
 #arch_tag="v16.3" # 20221129 and after 20221129
 #arch_tag="v16.2" # 20220627 - 20221128 Yanjun

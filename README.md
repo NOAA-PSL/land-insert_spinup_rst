@@ -7,8 +7,7 @@ and snow water equivalent.
 
 To-do: think some more about snow temperature.
 
-Clara Draper, March 2025: from scripts from Jeff Whitaker, Mike Barlage,  
-and Helin Wei.
+Clara Draper, March 2025: using insert script from Mike Barlage, and Helin Wei.
 
 ===================================
 
@@ -20,16 +19,11 @@ IF NEED TO EXTRACT FILES FROM THE ARCHIVE:
     2. Extract (operational) restarts from archives.
 
     >module load hpss
-IF use computing node to download data from HPSS:
-    > sbatch get_restarts.sh
-
-IF use login node and interactively download data from HPSS. 
-In this case, batch job setup part needs to be removed
-    >sh get_restarts.sh
+    >sbatch get_restarts.sh
 
     3. Change to desired resolution 
 
-    >sbatch chgres_restarts.sh
+    >sbatch sub_do_changeres.sh
 
 4. Copy the spun-up vector files into ./spin_vec/$RES\_[ENS/CTL]/
 
