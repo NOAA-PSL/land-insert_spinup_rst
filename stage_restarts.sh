@@ -8,7 +8,7 @@ source config_restarts
 
 # create clean directories
 
-do_control="NO"
+do_control="YES"
 do_ensemble="YES"
 
 if [ $do_control == "YES" ]; then
@@ -56,7 +56,6 @@ if [ $do_ensemble == "YES" ]; then
 
       n=$((n+1))
     done
-
     # calculate the ensemble mean
 
     mkdir -p ${new_dir}/ensmean_chgres
