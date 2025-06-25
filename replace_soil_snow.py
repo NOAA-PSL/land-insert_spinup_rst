@@ -35,7 +35,7 @@ ncid = Dataset(vector_file, 'r')
 vec_smc = ncid.variables['soil_moisture_vol'][0, :, :]
 vec_slc = ncid.variables['soil_liquid_vol'][0, :, :]
 vec_stc = ncid.variables['temperature_soil'][0, :, :]
-vec_snd = ncid.variables['snow_depth'][0, :]
+vec_snd = ncid.variables['snow_depth'][0, :] # mm
 vec_swe = ncid.variables['snow_water_equiv'][0, :]
 
 ncid.close()
@@ -103,6 +103,17 @@ for n in range(0,n_ens):
 
                     ################################
                     # insert vector values plus ensemble pert
+                    # snow
+
+                    orig = tile_swe[0, idim0, idim1]
+                    tile_swe[0, idim0, idim1] = max(0.0, vec_swe[nloc] + pert_swe[0,idim0,idim1])
+                    min_val[3,0] = min(min_val[3,0],tile_swe[0,  idim0, idim1] - orig)
+                    max_val[3,0] = max(max_val[3,0],tile_swe[0,  idim0, idim1] - orig)
+
+                    orig = tile_snd[0, idim0, idim1]
+                    tile_snd[0, idim0, idim1] = max(0.0, vec_snd[nloc] + pert_snd[0,idim0,idim1])
+                    min_val[4,0] = min(min_val[4,0],tile_snd[0,  idim0, idim1] - orig)
+                    max_val[4,0] = max(max_val[4,0],tile_snd[0,  idim0, idim1] - orig)
 
                     # soil temperatures
                     for l in np.arange(4):
@@ -132,16 +143,6 @@ for n in range(0,n_ens):
                             min_val[1,l] = min(min_val[1,l],tile_slc[0, l, idim0, idim1] - orig)
                             max_val[1,l] = max(max_val[1,l],tile_slc[0, l, idim0, idim1] - orig)
 
-                        # snow
-                        #orig = tile_swe[0, idim0, idim1]
-                        #tile_swe[0, idim0, idim1] = max(0.0, vec_swe[nloc] + pert_swe[0,idim0,idim1])
-                        #min_val[3,0] = min(min_val[3,0],tile_swe[0,  idim0, idim1] - orig)
-                        #max_val[3,0] = max(max_val[3,0],tile_swe[0,  idim0, idim1] - orig)
-
-                        #orig = tile_snd[0, idim0, idim1]
-                        #tile_snd[0, idim0, idim1] = max(0.0, vec_snd[nloc] + pert_snd[0,idim0,idim1])
-                        #min_val[4,0] = min(min_val[4,0],tile_snd[0,  idim0, idim1] - orig)
-                        #max_val[4,0] = max(max_val[4,0],tile_snd[0,  idim0, idim1] - orig)
 
                         #  check glacier tiles match
                         if ( tile_smc[0, 0, idim0, idim1] > 0.99 or vec_smc[0,nloc]>0.99):
@@ -160,14 +161,14 @@ for n in range(0,n_ens):
                     # sanity checks
 
                     # if spinup had little snow, set all members to no snow.
-                    if (0.0 < vec_snd[nloc] < 1.0) or (0.0 < vec_swe[nloc] < 0.01):
+                    if (vec_snd[nloc] < 1.0) or (vec_swe[nloc] < 0.1):
                         if print_low_snow_removal:
                             print(f"Removing location with SWE = {tile_swe[0,idim0,idim1]} and depth = {tile_snd[0,idim0,idim1]}")
                         tile_swe[0, idim0, idim1] = 0.
                         tile_snd[0, idim0, idim1] = 0.
                         low_snow_removal += 1
 
-                    # boundary checks
+                    # boundary checks (snow depth in cm!) 2m over glaciers.
                     if tile_snd[0,idim0,idim1] > 2000.0 and tile_veg[idim0,idim1] == 15: # glaciers
                         reduction_factor = 2000.0 / tile_snd[0,idim0,idim1]
                         if print_high_snow_removal:
@@ -176,6 +177,7 @@ for n in range(0,n_ens):
                         tile_swe[0,idim0,idim1] *= reduction_factor
                         high_snow_removal += 1
 
+                    # max limit 10 m. 10 m non-glacier
                     if tile_snd[0,idim0,idim1] > 10000.0:
                         reduction_factor = 10000.0 / tile_snd[0,idim0,idim1]
                         if print_high_snow_removal:
