@@ -21,6 +21,8 @@ export FIXsfc=${FIXfv3}/sfc/
 
 set -x
 
+export INPUT_OROG="/scratch1/NCEPDEV/global/glopara/fix/orog/20230615/C${CRES_IN}/" # v16.
+
 export ocn=025
 export VCOORD_FILE=${HOMEufs}/fix/am/global_hyblev.l128.txt
 export INPUT_TYPE='restart'

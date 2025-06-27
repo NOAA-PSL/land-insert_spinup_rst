@@ -4,7 +4,7 @@
 ## requires module load hpss
 ## ----------------------------------------------------------
 #SBATCH --ntasks=1 -p service
-#SBATCH -A fv3-cpu
+#SBATCH -A gsienkf
 #SBATCH -t 12:00:00
 #SBATCH -q batch
 #SBATCH -o slurm-get_restarts-%j.out
@@ -37,6 +37,7 @@ OUTDIR=$CHNGRESDIR/inputs/C${RES_CTL_IN}/${VALID_DATE}
 /bin/cp -f gdas.${YYYYMMDD}/${HH}/atmos/gdas.t${HH}z.abias_pc $OUTDIR/gdas.t${HHp3}z.abias_pc
 /bin/cp -f gdas.${YYYYMMDD}/${HH}/atmos/gdas.t${HH}z.abias_air $OUTDIR/gdas.t${HHp3}z.abias_air
 /bin/cp -f gdas.${YYYYMMDD}/${HH}/atmos/gdas.t${HH}z.abias_int $OUTDIR/gdas.t${HHp3}z.abias_int
+/bin/cp -f gdas.${YYYYMMDD}/${HH}/atmos/gdas.t${HH}z.radstat $OUTDIR/gdas.t${HHp3}z.radstat
 
 pushd gdas.${YYYYMMDD}/${HH}/atmos/RESTART
 datestring="${YYYYMMDDp3}.${HHp3}0000."
