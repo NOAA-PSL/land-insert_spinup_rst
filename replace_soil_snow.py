@@ -10,17 +10,16 @@ print_lims=True # print min / max change for each variable
 
 ##############################
 # get args
-if (len(sys.argv) != 6): 
+if (len(sys.argv) != 5): 
         for i, arg in enumerate(sys.argv):
                 print(f"Argument {i}: {arg}")
-        str_err = f" ** Error: expecting 5 arguments: \n ** YYYYMMDDHH resolution n_ens directory_tiles directory_vector"
+        str_err = f" ** Error: expecting 4 arguments: \n ** YYYYMMDDHH n_ens directory_tiles directory_vector"
         sys.exit(str_err)
 
 datestring   = sys.argv[1]
-res          = sys.argv[2]
-n_ens        = int(sys.argv[3])
-tile_dir     = sys.argv[4] 
-vector_dir   = sys.argv[5]
+n_ens        = int(sys.argv[2])
+tile_dir     = sys.argv[3] 
+vector_dir   = sys.argv[4]
 
 print_high_snow_removal = True
 print_low_snow_removal = False

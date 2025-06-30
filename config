@@ -1,0 +1,11 @@
+
+yy=2022
+mm=12
+dd=01
+hh=00
+
+CRES_HIRES=C384
+CRES_ENKF=C192
+
+OUTDIR=/scratch4/BMC/gsienkf/Clara.Draper/GDASinit_out/
+

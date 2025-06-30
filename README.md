@@ -1,11 +1,12 @@
-Collection of scripts to generate land restarts for GFS/GDAS ensemble 
-experiments.
 
-Inserts a spun-up (vector) land restart into the cold start tile files. 
-Inserts, soil moisture (total and liquid), soil temperature, snow depth, 
-and snow water equivalent. 
+Insert a spun-up (vector) land restart into cold start tile files. 
+Also applies the ensemble pertubations from the operational ensemble into the ensemble of tile files. 
+
+Inserts, soil moisture (total and liquid), soil temperature, snow depth (and SWE), and snow water equivalent from the spin up.
+Inserts pertubations in soil moisture, soil temperature and snow depth (and SWE). 
 
 To-do: think some more about snow temperature.
+     : parallelize the python calls.
 
 Clara Draper, March 2025: using insert script from Mike Barlage, and Helin Wei.
 
@@ -13,34 +14,23 @@ Clara Draper, March 2025: using insert script from Mike Barlage, and Helin Wei.
 
 Instructions: 
 
-1. Set desired dates, resolutions, and directories in config_restarts 
+1. Extract (operational) restarts from archives, and re-grid using UFS_UTILS/util/gdas_init 
 
-IF NEED TO EXTRACT FILES FROM THE ARCHIVE:
-    2. Extract (operational) restarts from archives.
+In config file: 
+* may need to change PROJECT_CODE in driver.$MACHINE.sh
+* in set_fixed_files.sh check that OCNRES is set correctly for chosen resolutions
+* set details in config, including: 
+    LEVS=128
+    CDUMP=gdas
+ 
+2. Either copy config file from UFS_UTILS/util/gdas_init into this directory, or fill in the existing config file.
 
-    >module load hpss
-    >sbatch get_restarts.sh
+3. Copy the spun-up vector restarts valid at the time in the config file into $DIRTILE/spin_vec/C${RES}/
 
-    3. Change to desired resolution 
+3. Insert the spun-up vectors. 
+>insert_spinup.sh
 
-    >sbatch sub_do_changeres.sh
 
-4. Copy the spun-up vector files into ./spin_vec/$RES\_[ENS/CTL]/
-
-5. Copy the output of chgres into new directories, and calculate the ensemble mean
-
->module load cdo
->sh stage_restarts.sh
-
-6. Insert the spun-up vector states into the control and ensemble 
-
->source env_python
->sh insert_control.sh 
->sh insert_ensemble.sh
-
-OUTPUT: The sfc_data files with the spun-values inserted are in ./spin_tile
-
-./chgres and ./spin_tile/$RES_ENS/$date/ensmean_chgres can be deleted.
 
 
 
