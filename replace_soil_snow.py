@@ -85,15 +85,11 @@ for n in range(0,n_ens):
             # pert = ensemble value - mean
             pert_slc = tile_slc - ncid.variables['slc'][:]
             pert_stc = tile_stc - ncid.variables['stc'][:]
-            pert_swe = tile_swe - ncid.variables['weasdl'][:]
-            pert_snd = tile_snd - ncid.variables['snodl'][:]
 
         else:
 
             pert_slc = np.full(np.shape(tile_slc),0.0)
             pert_stc = np.full(np.shape(tile_stc),0.0)
-            pert_swe = np.full(np.shape(tile_swe),0.0)
-            pert_snd = np.full(np.shape(tile_snd),0.0)
 
         for idim0 in range(ndims[0]):
             for idim1 in range(ndims[1]):
@@ -105,12 +101,12 @@ for n in range(0,n_ens):
                     # snow
 
                     orig = tile_swe[0, idim0, idim1]
-                    tile_swe[0, idim0, idim1] = max(0.0, vec_swe[nloc] + pert_swe[0,idim0,idim1])
+                    tile_swe[0, idim0, idim1] = vec_swe[nloc]
                     min_val[3,0] = min(min_val[3,0],tile_swe[0,  idim0, idim1] - orig)
                     max_val[3,0] = max(max_val[3,0],tile_swe[0,  idim0, idim1] - orig)
 
                     orig = tile_snd[0, idim0, idim1]
-                    tile_snd[0, idim0, idim1] = max(0.0, vec_snd[nloc] + pert_snd[0,idim0,idim1])
+                    tile_snd[0, idim0, idim1] = vec_snd[nloc]
                     min_val[4,0] = min(min_val[4,0],tile_snd[0,  idim0, idim1] - orig)
                     max_val[4,0] = max(max_val[4,0],tile_snd[0,  idim0, idim1] - orig)
 
@@ -159,15 +155,15 @@ for n in range(0,n_ens):
                     #################################
                     # sanity checks
 
-                    # if spinup had little snow, set all members to no snow.
-                    if (vec_snd[nloc] < 1.0) or (vec_swe[nloc] < 0.1):
+                    # remove low snow (includes negative check)
+                    if (tile_snd[0,idim0,idim1] < 1.0) or (tile_swe[0,idim0,idim1] < 0.1):
                         if print_low_snow_removal:
                             print(f"Removing location with SWE = {tile_swe[0,idim0,idim1]} and depth = {tile_snd[0,idim0,idim1]}")
                         tile_swe[0, idim0, idim1] = 0.
                         tile_snd[0, idim0, idim1] = 0.
                         low_snow_removal += 1
 
-                    # boundary checks (snow depth in cm!) 2m over glaciers.
+                    # boundary checks 2m over glaciers.
                     if tile_snd[0,idim0,idim1] > 2000.0 and tile_veg[idim0,idim1] == 15: # glaciers
                         reduction_factor = 2000.0 / tile_snd[0,idim0,idim1]
                         if print_high_snow_removal:
