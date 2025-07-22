@@ -83,12 +83,12 @@ for n in range(0,n_ens):
             ncid = Dataset(ensmean_file)
 
             # pert = ensemble value - mean
-            pert_slc = tile_slc - ncid.variables['slc'][:]
+            pert_smc = tile_smc - ncid.variables['smc'][:]
             pert_stc = tile_stc - ncid.variables['stc'][:]
 
         else:
 
-            pert_slc = np.full(np.shape(tile_slc),0.0)
+            pert_smc = np.full(np.shape(tile_smc),0.0)
             pert_stc = np.full(np.shape(tile_stc),0.0)
 
         for idim0 in range(ndims[0]):
@@ -128,13 +128,13 @@ for n in range(0,n_ens):
                         # note: potentially allowing soil moisture above porosity. I think the model fixes this.
                         for l in np.arange(4):
                             orig = tile_smc[0, l, idim0, idim1]
-                            tile_smc[0, l, idim0, idim1] = max(smc_min, vec_smc[l, nloc] + pert_slc[0, l, idim0, idim1])
+                            tile_smc[0, l, idim0, idim1] = max(smc_min, vec_smc[l, nloc] + pert_smc[0, l, idim0, idim1])
 
                             min_val[0,l] = min(min_val[0,l],tile_smc[0, l, idim0, idim1] - orig)
                             max_val[0,l] = max(max_val[0,l],tile_smc[0, l, idim0, idim1] - orig)
 
                             orig = tile_slc[0, l, idim0, idim1]
-                            tile_slc[0, l, idim0, idim1] = max(smc_min, vec_slc[l, nloc] + pert_slc[0, l, idim0, idim1])
+                            tile_slc[0, l, idim0, idim1] = max(smc_min, vec_slc[l, nloc])
                             min_val[1,l] = min(min_val[1,l],tile_slc[0, l, idim0, idim1] - orig)
                             max_val[1,l] = max(max_val[1,l],tile_slc[0, l, idim0, idim1] - orig)
 

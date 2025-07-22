@@ -3,7 +3,7 @@ Insert a spun-up (vector) land restart into cold start tile files.
 Also applies the ensemble pertubations from the operational ensemble into the ensemble of tile files. 
 
 Inserts, soil moisture (total and liquid), soil temperature, snow depth (and SWE), and snow water equivalent from the spin up.
-Inserts pertubations in soil moisture, soil temperature and snow depth (and SWE). 
+Inserts pertubations in soil moisture and soil temperature. 
 
 To-do: think some more about snow temperature.
      : parallelize the python calls.
