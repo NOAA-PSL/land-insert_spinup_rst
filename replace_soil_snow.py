@@ -134,7 +134,7 @@ for n in range(0,n_ens):
                             max_val[0,l] = max(max_val[0,l],tile_smc[0, l, idim0, idim1] - orig)
 
                             orig = tile_slc[0, l, idim0, idim1]
-                            tile_slc[0, l, idim0, idim1] = max(smc_min, vec_slc[l, nloc] + pert_slc[0, l, idim0, idim1])
+                            tile_slc[0, l, idim0, idim1] = max(smc_min, vec_slc[l, nloc])
                             min_val[1,l] = min(min_val[1,l],tile_slc[0, l, idim0, idim1] - orig)
                             max_val[1,l] = max(max_val[1,l],tile_slc[0, l, idim0, idim1] - orig)
 
